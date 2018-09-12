@@ -111,4 +111,32 @@ public class OrdersAPIController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.PUT, path = "{idTable}")
+    public ResponseEntity<?> updateOrder(@PathVariable String idTable, @RequestBody String plato) {
+        Type listType = new TypeToken<Map<String, String>>() {}.getType();
+        Map<String, String> listaord = g.fromJson(plato, listType);
+        for (String key : listaord.keySet()) {
+            try {
+                services.getTableOrder(Integer.parseInt(idTable)).addDish(key, Integer.parseInt(listaord.get(key)));
+            } catch (OrderServicesException ex) {
+                Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
+    @RequestMapping(method = RequestMethod.DELETE, path = "{idTable}")
+    public ResponseEntity<?> deleteOrder(@PathVariable String idTable){
+        try {
+            services.releaseTable(Integer.parseInt(idTable));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (OrderServicesException ex) {
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
+    
+
 }
