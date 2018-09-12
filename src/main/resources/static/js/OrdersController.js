@@ -1,18 +1,5 @@
-var orders = {
-    " order_id ": 1,
-    " table_id ": 1,
-    " productos ": [{
-            " producto ": " PIZZA ",
-            " cantidad ": 3,
-            " precio ": " $ 15.000 "}
-        ,
-        {
-            " producto ": " HAMBURGUESA ",
-            " cantidad ": 1,
-            " precio ": " $ 12.300 "
-        }
-    ]
-}
+orders=undefined;
+
 addOrder = function () {
     var insert = {2: {"orderAmountsMap": {"HOTDOG": 10, "HAMBURGUER": 20, "BEER": 40}, "tableNumber": 2}};
     axios.post('/orders', insert)
@@ -66,5 +53,9 @@ errorMessage = function () {
     alert("Hay un problema con nuestros servidores. Pedimos disculpas por la inconveniencia, intente de nuevo más tarde");
 }
 
-
+$(document).ready(
+			function(){
+				loadOrdersList();
+                            }
+);
 

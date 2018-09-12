@@ -64,7 +64,7 @@ public class OrdersAPIController {
             }
         });
         String listord_json = g.toJson(listaord);
-        return new ResponseEntity<>(listord_json, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(listord_json, HttpStatus.OK);
 
     }
 
@@ -75,7 +75,7 @@ public class OrdersAPIController {
 
             listaord.put(idTable, services.getTableOrder(Integer.parseInt(idTable)));
             String listaord_json = g.toJson(listaord);
-            return new ResponseEntity<>(listaord_json, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(listaord_json, HttpStatus.OK);
         } catch (OrderServicesException e) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -94,17 +94,17 @@ public class OrdersAPIController {
 
                 services.addNewOrderToTable(listaord.get(s));
             }
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (OrderServicesException e) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{idTable}/total")
     public ResponseEntity<?> getTotalTableBill(@PathVariable String idTable) {
         try {
-            return new ResponseEntity<>("The total bill to pay is: " + services.calculateTableBill(Integer.parseInt(idTable)), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(services.calculateTableBill(Integer.parseInt(idTable)), HttpStatus.OK);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -120,10 +120,10 @@ public class OrdersAPIController {
                 services.getTableOrder(Integer.parseInt(idTable)).addDish(key, Integer.parseInt(listaord.get(key)));
             } catch (OrderServicesException ex) {
                 Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
             }
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
     @RequestMapping(method = RequestMethod.DELETE, path = "{idTable}")
@@ -133,7 +133,7 @@ public class OrdersAPIController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
