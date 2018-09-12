@@ -53,9 +53,9 @@ errorMessage = function () {
     alert("Hay un problema con nuestros servidores. Pedimos disculpas por la inconveniencia, intente de nuevo más tarde");
 }
 
-$(document).ready(
+/*$(document).ready(
 			function(){
 				loadOrdersList();
                             }
-);
+);*/
 
