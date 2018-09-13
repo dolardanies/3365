@@ -47,16 +47,30 @@ removeOrderById = function (id) {
 }
 
 loadOrdersList = function () {
-    orders = [];
+    orders = {
+	"order_id": 1,
+	"table_id": 1,
+	"products": [{
+			"product": "PIZZA",
+			"quantity": 3,
+			"price": "$15.000"
+		},
+		{
+			"product": "HAMBURGER",
+			"quantity": 1,
+			"price": "$12.300"
+		}
+	]
+    };
     axios.get('/orders')
             .then(function (result) {
                 orders = result.data;
                 $("#actualT").empty();
                 for (key in orders) {
                     $("#actualT").append("<p id='tag" + key + "'>Orden # " + key + "</p>");
-                    $("#actualT").append("<table id='Order" + key + " 'class='table'><thead class='thead - dark'><tr><th scope='col'>PRODUCTO</th><th scope='col'>CANTIDAD</th><th scope='col'>PRECIOpi</th></tr></thead>");
+                    $("#actualT").append("<table id='Order" + key + " 'class='table'><thead class='thead - dark'><tr><th scope='col'>PRODUCTO</th><th scope='col'>CANTIDAD</th><th scope='col'>PRECIO</th></tr></thead>");
                     for (map in orders[key].orderAmountsMap) {
-                        ("#Order" + key).append("<tbody> <tr> <td>" + map + "</td> <td>" + orders[key].orderAmountsMap[map] + "</td> </tr> </tbody>");
+                        $("#Order" + key).append("<tbody> <tr> <td>" + map + "</td> <td>" + orders[key].orderAmountsMap[map] + "</td> </tr> </tbody>");
                     }
                 }
                 console.log(orders);
