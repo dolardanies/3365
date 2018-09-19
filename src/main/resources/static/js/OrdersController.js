@@ -1,30 +1,13 @@
-orders = {
-	"order_id": 1,
-	"table_id": 1,
-	"products": [{
-			"product": "PIZZA",
-			"quantity": 3,
-			"price": "$15.000"
-		},
-		{
-			"product": "HAMBURGER",
-			"quantity": 1,
-			"price": "$12.300"
-		}
-	]
-    }
-
+orders = undefined;
 
 addOrder = function () {
     var insert = {2: {"orderAmountsMap": {"HOTDOG": 10, "HAMBURGUER": 20, "BEER": 40}, "tableNumber": 2}};
     axios.post('/orders', insert)
-            .then(function () {
-                $("#actualT").append("<p id='tag" + 2 + "'>Order 1</p>");
+            .then(function(){
+                $("#actualT").append("<p id='tag" + 2 + "'>Orden 2</p>");
                 $("#actualT").append("<table id='Order" + 2 + " 'class='table'><thead class='thead - dark'><tr><th scope='col'>PRODUCTO</th><th scope='col'>CANTIDAD</th><th scope='col'>PRECIO</th></tr></thead>");
-                
-
                 for (map in insert[2].orderAmountsMap) {
-                    ("#Order" + 2).append("<tbody> <tr> <td>" + map + "</td> <td>" + insert[2].orderAmountsMap[map] + "</td> </tr> </tbody>");
+                    $("#Order" + 2).append("<tbody> <tr> <td>" + map + "</td> <td>" + insert[2].orderAmountsMap[map] + "</td> </tr> </tbody>");
                 }
 
             })
@@ -47,21 +30,7 @@ removeOrderById = function (id) {
 }
 
 loadOrdersList = function () {
-    orders = {
-	"order_id": 1,
-	"table_id": 1,
-	"products": [{
-			"product": "PIZZA",
-			"quantity": 3,
-			"price": "$15.000"
-		},
-		{
-			"product": "HAMBURGER",
-			"quantity": 1,
-			"price": "$12.300"
-		}
-	]
-    };
+    orders = [];
     axios.get('/orders')
             .then(function (result) {
                 orders = result.data;
@@ -73,20 +42,20 @@ loadOrdersList = function () {
                         $("#Order" + key).append("<tbody> <tr> <td>" + map + "</td> <td>" + orders[key].orderAmountsMap[map] + "</td> </tr> </tbody>");
                     }
                 }
-                console.log(orders);
+                //console.log(orders);
             })
-    /*.catch(function (error) {
-     console.log(error);
-     errorMessage();
-     });*/
+    .catch(function (error) {
+        console.log(error);
+        errorMessage();
+     });
 }
 errorMessage = function () {
     alert("Hay un problema con nuestros servidores. Pedimos disculpas por la inconveniencia, intente de nuevo más tarde");
 }
 
 /*$(document).ready(
- function(){
- loadOrdersList();
- }
+    function(){
+        loadOrdersList();
+    }
  );
  */
