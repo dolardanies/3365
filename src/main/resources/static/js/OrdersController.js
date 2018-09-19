@@ -5,10 +5,11 @@ addOrder = function () {
     axios.post('/orders', insert)
             .then(function(){
                 $("#actualT").append("<p id='tag" + 2 + "'>Orden 2</p>");
-                $("#actualT").append("<table id='Order" + 2 + " 'class='table'><thead class='thead - dark'><tr><th scope='col'>PRODUCTO</th><th scope='col'>CANTIDAD</th></tr></thead></table>");
+                $("#actualT").append("<table id='Order" + 2 + " 'class='table'><thead class='thead - dark'><tr><th scope='col'>PRODUCTO</th><th scope='col'>CANTIDAD</th></tr></thead>");
                 for (map in insert[2].orderAmountsMap) {
                     $("#Order" + 2).append("<tbody> <tr> <td>" + map + "</td> <td>" + insert[2].orderAmountsMap[map] + "</td> </tr> </tbody>");
                 }
+                $("#actualT").append("</table>");
 
             })
             .catch(function (error) {
@@ -39,8 +40,9 @@ loadOrdersList = function () {
                     $("#actualT").append("<p id='tag" + key + "'>Orden # " + key + "</p>");
                     $("#actualT").append("<table id='Order" + key + " 'class='table'><thead class='thead - dark'><tr><th scope='col'>PRODUCTO</th><th scope='col'>CANTIDAD</th></tr></thead>");
                     for (map in orders[key].orderAmountsMap) {
-                        $("#Order" + key).append("<tbody> <tr> <td>" + map + "</td> <td>" + orders[key].orderAmountsMap[map] + "</td> </tr> </tbody></table>");
+                        $("#Order" + key).append("<tbody> <tr> <td>" + map + "</td> <td>" + orders[key].orderAmountsMap[map] + "</td> </tr> </tbody>");
                     }
+                    $("#actualT").append("</table>");
                 }
                 //console.log(orders);
             })
